@@ -18,7 +18,6 @@ void FlapStack::flipOne()
     QList<QGraphicsTransform*> tList;
     tList.append(rot);
     _flaps.front().first->setTransformations(tList);
-    (++(begin(_flaps)))->second->resetTransform();
     QPropertyAnimation *anim_1 = new QPropertyAnimation(rot, "angle");
     anim_1->setStartValue(0);
     anim_1->setEndValue(90);
@@ -52,8 +51,8 @@ void FlapStack::halfFlip()
 void FlapStack::flipFinished()
 {
     _flaps.front().first->setZValue(0);
-    _flaps.front().first->resetTransform();
     _flaps.front().second->setZValue(0);
+    _flaps.front().first->setTransformations(QList<QGraphicsTransform*>());
 
     _flaps.emplace_back(std::move(_flaps.front()));
     _flaps.pop_front();
