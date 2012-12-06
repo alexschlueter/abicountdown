@@ -14,9 +14,10 @@ TEMPLATE = app
 QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    flapstack.cpp
 
 HEADERS  += mainwindow.h \
-    Pixmap.h
+    flapstack.h
 
 RESOURCES = animatedtiles.qrc
