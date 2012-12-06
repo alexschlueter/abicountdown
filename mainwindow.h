@@ -17,8 +17,8 @@ public:
 
 
     static constexpr auto ourFlight = "ABI13", ourGate = "G9";
-    static constexpr auto screenSwitchInterval = 60000, animationTime = 200, xFlight = 10, xGate = 4, xDeparture = 6;
-    static constexpr auto yFlaps = 5, symbolCount = 65;
+    static constexpr auto screenSwitchInterval = 60000, animationTime = 200, xFlight = 10, xGate = 4, xDeparture = 9;
+    static constexpr auto yFlaps = 7, symbolCount = 65;
     static constexpr auto xFlapBorder = 40, xFlaps = xFlight + xGate + xDeparture;
     
 private:
@@ -29,6 +29,7 @@ private:
 
 
     QTimer screenSwitchTimer;
+    QDateTime abiDate;
 
     typedef std::array<std::array<FlapStack, xFlaps>, yFlaps> flapStacksT;
 

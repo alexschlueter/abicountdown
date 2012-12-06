@@ -1,9 +1,9 @@
 #include "mainwindow.h"
 #include <QTextStream>
 
-MainWindow::MainWindow() : dis(0, yFlaps - 1), scene(QApplication::desktop()->screenGeometry()), view(&scene),
+MainWindow::MainWindow() : dis(0, yFlaps - 1), abiDate(QDate(2013, 3, 22), QTime(0, 0)), scene(QApplication::desktop()->screenGeometry()), view(&scene),
     background(":/images/blue_sky.jpg")
-{
+{   
     symbols = {{ 'A', 'B', 'C', 'D', 'F', 'E', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
                  'S', 'T','U', 'V', 'W', 'X', 'Y', 'Z', 'Ö', 'Ä', 'Ü', '1', '2', '3', '4', '5', '6', '7',
                  '8', '9', '0', '!', '?', '€', '$', '@', '%', '&', '/', '(', ')', '+', '-', '_', '.', ':',
@@ -13,7 +13,7 @@ MainWindow::MainWindow() : dis(0, yFlaps - 1), scene(QApplication::desktop()->sc
     std::array<std::pair<QPixmap, QPixmap>, symbolCount> singleSymbols;
 
     auto i = 0;
-    auto scaledFlapWidth = (scene.width() - 2 * xFlapBorder) / xFlaps, scaledFlapHeight = scene.height() * 3 / (5 * yFlaps);
+    auto scaledFlapWidth = (scene.width() - 2 * xFlapBorder) / xFlaps, scaledFlapHeight = scene.height() * 4 / (6 * yFlaps);
     for (auto y = 0; y < 7; y++) {
         int xMax;
         if (y == 2) xMax = 9;
@@ -31,8 +31,8 @@ MainWindow::MainWindow() : dis(0, yFlaps - 1), scene(QApplication::desktop()->sc
             flapStacks[y][x].init(animationTime, scaledFlapHeight / 2);
             for (auto s = 0; s < symbolCount; s++) {
                 auto item = std::make_pair(scene.addPixmap(singleSymbols[s].first), scene.addPixmap(singleSymbols[s].second));
-                item.first->setPos(xFlapBorder + x * scaledFlapWidth, scene.height() / 5 + y * scaledFlapHeight);
-                item.second->setPos(xFlapBorder + x * scaledFlapWidth, scene.height() / 5 + (y + 0.5) * scaledFlapHeight);
+                item.first->setPos(xFlapBorder + x * scaledFlapWidth, scene.height() / 6 + y * scaledFlapHeight);
+                item.second->setPos(xFlapBorder + x * scaledFlapWidth, scene.height() / 6 + (y + 0.5) * scaledFlapHeight);
                 if (s == 0) {
                     item.first->setZValue(2);
                     item.second->setZValue(2);
@@ -76,7 +76,15 @@ void MainWindow::switchScreen()
         if (y == ourFlightPos) {
             flight = "ABI13";
             gate = "G9";
-            departure = "220313";
+            auto departDays = QString::number(QDateTime::currentDateTime().daysTo(abiDate)).toStdString();
+            auto departHours = QString::number(static_cast<int>((QDateTime::currentDateTime().secsTo(abiDate) % 86400) / 3600)).toStdString();
+            auto departMins = QString::number(static_cast<int>((QDateTime::currentDateTime().secsTo(abiDate) % 3600) / 60)).toStdString();
+
+            departDays.insert(0, 3 - departDays.size(), '0');
+            departHours.insert(0, 2 - departHours.size(), '0');
+            departMins.insert(0, 2 - departMins.size(), '0');
+
+            departure = departDays + ":" + departHours + ":" + departMins;
         } else {
             auto otherFlightPos = std::uniform_int_distribution<>(0, otherFlightsLeft.size() - 1)(gen);
             flight = otherFlightsLeft[otherFlightPos];
