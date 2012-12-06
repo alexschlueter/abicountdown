@@ -15,12 +15,15 @@ private:
 
     unsigned int offset{0}, goalOffset{0}, animationTime;
     FlapStackT _flaps;
+    QGraphicsRotation rot_1, rot_2;
+    QPropertyAnimation anim_1, anim_2;
+    QList<QGraphicsTransform*> list_1, list_2;
 
 public:
     FlapStack() {}
+    void init(unsigned int animTime, int halfFlapHeight);
 
     FlapStackT &flaps() { return _flaps; }
-    void setAnimationTime(unsigned int animTime) { animationTime = animTime; }
     void setGoalOffset(unsigned int newOffset);
 
 private slots:

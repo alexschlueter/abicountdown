@@ -28,7 +28,7 @@ MainWindow::MainWindow() : dis(0, yFlaps - 1), scene(QApplication::desktop()->sc
 
     for (auto y = 0; y < yFlaps; y++) {
         for (auto x = 0; x < xFlaps; x++) {
-            flapStacks[y][x].setAnimationTime(animationTime);
+            flapStacks[y][x].init(animationTime, scaledFlapHeight / 2);
             for (auto s = 0; s < symbolCount; s++) {
                 auto item = std::make_pair(scene.addPixmap(singleSymbols[s].first), scene.addPixmap(singleSymbols[s].second));
                 item.first->setPos(xFlapBorder + x * scaledFlapWidth, scene.height() / 5 + y * scaledFlapHeight);
