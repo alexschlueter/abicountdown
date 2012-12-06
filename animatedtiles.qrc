@@ -9,5 +9,6 @@
         <file>images/tile.png</file>
         <file>images/A.png</file>
         <file>images/blue_sky.jpg</file>
+        <file>images/flipboardletters.svg</file>
     </qresource>
 </RCC>
