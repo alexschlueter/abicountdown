@@ -11,3 +11,10 @@
 *.lai
 *.la
 *.a
+
+# IDE junk
+*.pro.user
+ui_*
+Makefile*
+debug/
+release/
